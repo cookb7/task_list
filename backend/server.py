@@ -4,26 +4,17 @@ Backend file for Task List project.
 
 
 from flask import Flask, request, jsonify
-import json
-import sqlite3
+from database import DatabaseFucntions
 
 app = Flask(__name__)
+db = DatabaseFucntions()
 
 
 class TaskListApp:
     def __init__(self, app) -> None:
         self.app = app
-        connection = sqlite3.connect('taskdatabase.db')
-        cursor = connection.cursor()
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS tasks(
-                             id INTEGER PRIMARY KEY,
-                             task_name TEXT NOT NULL,
-                             date DATE,
-                             details TEXT NOT NULL
-            )""")
-        connection.commit()
         self.set_routes()
+        db.create_table()
 
     def set_routes(self):
         self.app.add_url_rule('/add-task', 'add-task', self.add_task, methods=['POST'])
@@ -36,12 +27,9 @@ class TaskListApp:
             name = data.get('name')
             date = data.get('date')
             details = data.get('details')
-            con = sqlite3.connect('taskdatabase.db')
-            cursor = con.cursor()
-            sql = """INSERT INTO tasks (task_name, date, details) 
-            VALUES (?, ?, ?)"""
-            cursor.execute(sql, (name, date, details))
-            con.commit()
+            db.insert(name, date, details)
+            results = db.select_all()
+            print(results)
             return jsonify({'results': 'Done'})
 
         except Exception as e:

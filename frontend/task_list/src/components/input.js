@@ -9,10 +9,14 @@ const Input = () => {
     const [date, setDate] = useState('');
     const [details, setDetails] = useState('');
 
-    const handleInput = (event) => {
+    const handleName = (event) => {
         setName(event.target.value);
+    };
+    const handleDate = (event) => {
         setDate(event.target.value);
-        setDetails(event.target.value);
+    };
+    const handleDetails = (event) => {
+        setDetails(event.target.value)
     };
 
     const handleAdd = async () => {
@@ -22,7 +26,8 @@ const Input = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(task_name),
+                body: JSON.stringify({'name': task_name,
+            'date': date, 'details': details}),
             });
 
             if (response.ok) {
@@ -41,7 +46,18 @@ const Input = () => {
             placeholder="Task Name"
             value={task_name}
             className="custom-input"
-            onChange={handleInput}
+            onChange={handleName}
+            />
+            <input type="date"
+            placeholder="Date"
+            value={date}
+            onChange={handleDate}
+            />
+            <input
+            type="text"
+            placeholder="Details"
+            value={details}
+            onChange={handleDetails}
             />
             <button onClick={handleAdd}>Add</button>
         </div>
