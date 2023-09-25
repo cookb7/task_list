@@ -1,6 +1,7 @@
 // Data input component
 
 import React, {useState} from "react"
+import Delete from "./delete";
 
 
 const Input = () => {
@@ -8,6 +9,7 @@ const Input = () => {
     const [task_name, setName] = useState('');
     const [date, setDate] = useState('');
     const [details, setDetails] = useState('');
+    const [results, setResults] = useState([]);
 
     const handleName = (event) => {
         setName(event.target.value);
@@ -32,7 +34,8 @@ const Input = () => {
 
             if (response.ok) {
                 const data = await response.json();
-                console.log(data.results)
+                console.log(data)
+                setResults(data)
             }
         } catch (error) {
             console.error('Error', error);
@@ -60,11 +63,17 @@ const Input = () => {
             onChange={handleDetails}
             />
             <button onClick={handleAdd}>Add</button>
+            <p>Tasks</p>
+            <div>
+                <ul>
+                    {results.map((item, results) => (<li key={results}>{item}<Delete id={item[0]}/></li>))}
+                    
+                </ul>
+            </div>
+            
         </div>
-
         
-
-    )
+    );
 };
 
 export default Input;

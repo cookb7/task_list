@@ -19,7 +19,7 @@ class TaskListApp:
     def set_routes(self):
         self.app.add_url_rule('/add-task', 'add-task', self.add_task, methods=['POST'])
         self.app.add_url_rule('/update-task', self.update_task)
-        self.app.add_url_rule('/delete-task', self.delete_task)
+        self.app.add_url_rule('/delete-task', 'delete-task', self.delete_task, methods=['POST'])
  
     def add_task(self):
         try:
@@ -29,8 +29,7 @@ class TaskListApp:
             details = data.get('details')
             db.insert(name, date, details)
             results = db.select_all()
-            print(results)
-            return jsonify({'results': 'Done'})
+            return jsonify(results)
 
         except Exception as e:
             return jsonify({"Error": str(e)}), 400
@@ -39,8 +38,15 @@ class TaskListApp:
         pass
 
     def delete_task(self):
-        pass
-    
+        try:
+            data = request.get_data()
+            id = data.decode('utf-8')
+            db.delete(id)
+            print('here')
+            return db.select_all()
+        
+        except Exception as e:
+            return jsonify({"Error": str(e)}), 400
 
 if __name__ == '__main__':
     task_app = TaskListApp(app)

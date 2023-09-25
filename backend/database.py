@@ -45,7 +45,16 @@ class DatabaseFucntions:
         cursor = self._connection.cursor()
         cursor.execute("""SELECT * FROM tasks""")
         results = cursor.fetchall()
-
         self._close_connection()
         return results
+    
+    def delete(self, id):
+        self._create_connection()
+        cursor = self._connection.cursor()
+        print(id)
+        print(type(id))
+        cursor.execute("""DELETE FROM tasks WHERE id = ?;""", id)
+        print('Here')
+        self._connection.commit()
+        self._close_connection()
     
