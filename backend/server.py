@@ -41,8 +41,7 @@ class TaskListApp:
         try:
             data = request.get_data()
             id = data.decode('utf-8')
-            db.delete(id)
-            print('here')
+            db.delete(int(id))
             return db.select_all()
         
         except Exception as e:

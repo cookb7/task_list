@@ -2,6 +2,7 @@
 
 import React, {useState} from "react"
 import Delete from "./delete";
+import TaskList from "./results";
 
 
 const Input = () => {
@@ -63,13 +64,7 @@ const Input = () => {
             onChange={handleDetails}
             />
             <button onClick={handleAdd}>Add</button>
-            <p>Tasks</p>
-            <div>
-                <ul>
-                    {results.map((item, results) => (<li key={results}>{item}<Delete id={item[0]}/></li>))}
-                    
-                </ul>
-            </div>
+            <div><TaskList results={results}/></div>
             
         </div>
         
