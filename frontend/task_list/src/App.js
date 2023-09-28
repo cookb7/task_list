@@ -1,5 +1,7 @@
 import './App.css';
 import Input from './components/input';
+import Delete from './components/delete';
+import TaskList from './components/results';
 
 function App() {
   return (

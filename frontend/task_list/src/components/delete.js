@@ -22,7 +22,7 @@ const Delete = (id) => {
         }
     };
     return (
-        <button onClick={handleDelete}>Delete</button>
+        <button onClick={handleDelete(id)}>Delete</button>
     )
 };
 

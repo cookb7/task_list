@@ -53,6 +53,7 @@ class DatabaseFucntions:
         cursor = self._connection.cursor()
         sql = "DELETE FROM tasks WHERE id = ?"
         cursor.execute(sql, (id,))
+        print(sql, id)
         self._connection.commit()
         self._close_connection()
     

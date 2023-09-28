@@ -1,8 +1,6 @@
 // Data input component
 
-import React, {useState} from "react"
-import Delete from "./delete";
-import TaskList from "./results";
+import React, {useEffect, useState} from "react"
 
 
 const Input = () => {
@@ -43,6 +41,32 @@ const Input = () => {
         }
     };
 
+    const handleDelete = async (id) => {
+        try {
+            const response = await fetch('/delete-task', {
+                method: 'POST',
+                hearders: {
+                    'Content-Type': 'application/json',
+                },
+                body: id,
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data)
+                setResults(data)
+            }
+        } catch (error) {
+            console.error('Error', error);
+        }
+    };
+
+    function getTasks = async () => {
+        try {
+            const response = await fetch()
+        }
+    }
+
     return (
         <div className="data-input-container">
             <input
@@ -64,8 +88,30 @@ const Input = () => {
             onChange={handleDetails}
             />
             <button onClick={handleAdd}>Add</button>
-            <div><TaskList results={results}/></div>
-            
+
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Date</th>
+                    <th>Details</th>
+                </tr>
+                </thead>
+                <tbody>
+                {results.map((item) => (
+                    <tr key={item}>
+                    <td>{item[0]}</td>
+                    <td>{item[1]}</td>
+                    <td>{item[2]}</td>
+                    <td>{item[3]}</td>
+                    <td>
+                        <button onClick={() => handleDelete(item[0])}>Delete</button>
+                    </td>
+                    </tr>
+                ))}
+                </tbody>
+            </table>
         </div>
         
     );

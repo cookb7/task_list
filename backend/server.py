@@ -29,6 +29,7 @@ class TaskListApp:
             details = data.get('details')
             db.insert(name, date, details)
             results = db.select_all()
+            print(results)
             return jsonify(results)
 
         except Exception as e:
@@ -40,6 +41,7 @@ class TaskListApp:
     def delete_task(self):
         try:
             data = request.get_data()
+            print(data)
             id = data.decode('utf-8')
             db.delete(int(id))
             return db.select_all()
